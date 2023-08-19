@@ -36,11 +36,8 @@ public class LoginActivity extends AppCompatActivity
     FirebaseDatabase firebasedatabase;
     FirebaseFirestore db;
 
-    String a1 = EmailId.getText().toString();
-    String b1 = PasswordId.getText().toString();
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -102,20 +99,41 @@ public class LoginActivity extends AppCompatActivity
                                     String b = doc.getString("Password");
                                     String c = doc.getString("Phone");
 
+                                    String a1 = EmailId.getText().toString();
+                                    String b1 = PasswordId.getText().toString();
+
+
+                                    //email login
                                     if(a.equals(a1) && b.equals(b1))
                                     {
-                                        //email login
-                                        User user = new User(a1, b1);
-                                        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
-                                        sessionManagement.saveSession(user);
-
-                                        //2. step
-                                        moveToMainActivity();
+                                        Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
+                                        Intent home = new Intent(LoginActivity.this, Dashboard.class);
+                                        startActivity(home);
+                                        finish();
                                     }
                                     else
                                     {
-                                        Toast.makeText(LoginActivity.this, "DAta",Toast.LENGTH_LONG).show();
+                                        LoginUser.setText("ERROR ! ");
+                                        LoginUser.setError("");
+                                        LoginUser.setText("LOGIN");
                                     }
+
+
+                                    //phone login
+                                    if(c.equals(a1) && b.equals(b1))
+                                    {
+                                        Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
+                                        Intent home = new Intent(LoginActivity.this, Dashboard.class);
+                                        startActivity(home);
+                                        finish();
+                                    }
+                                    else
+                                    {
+                                        LoginUser.setText("ERROR ! ");
+                                        LoginUser.setError("");
+                                        LoginUser.setText("LOGIN");
+                                    }
+
                                 }
                             }
                         }
@@ -156,51 +174,5 @@ public class LoginActivity extends AppCompatActivity
                 startActivity(nextAct);
             }
         });
-    }
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        checkSession();
-    }
-
-    private void checkSession()
-    {
-        //check if user is logged in
-        //if user is logged in --> move to mainActivity
-
-        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
-        int userID = sessionManagement.getSession();
-
-        if(userID != -1)
-        {
-            //user id logged in and so move to mainActivity
-            moveToMainActivity();
-        }
-        else
-        {
-            //do nothing
-        }
-    }
-
-    public void login(View view)
-    {
-        // 1.log in to app and save session of user
-        // 2. move to mainActivity
-
-        //1. login and save session
-        User user = new User(a1,b1);
-        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
-        sessionManagement.saveSession(user);
-
-        //2. step
-        moveToMainActivity();
-    }
-
-    private void moveToMainActivity()
-    {
-        Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 }
