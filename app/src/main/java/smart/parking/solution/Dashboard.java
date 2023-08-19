@@ -54,7 +54,6 @@ public class Dashboard extends AppCompatActivity
 
         database = FirebaseDatabase.getInstance("https://sps-v2-default-rtdb.firebaseio.com").getReference();
 
-
         database.addValueEventListener(new ValueEventListener()
         {
             @Override
@@ -72,7 +71,8 @@ public class Dashboard extends AppCompatActivity
                             sp1.setText("Place 1 : " + place1);
                             I1.setVisibility(View.VISIBLE);
                         }
-                        else if (place1.equals("Free") && startTime > 0)
+
+                        if(place1.equals("Free"))
                         {
                             endTime = System.currentTimeMillis();
                             timerHandler.removeCallbacks(updateTimerRunnable); // Stop the timer runnable
@@ -84,6 +84,17 @@ public class Dashboard extends AppCompatActivity
                     }
                 }
             }
+
+            Runnable updateTimerRunnable = new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    long timeElapsedMillis = System.currentTimeMillis() - startTime;
+                    updateTimeOnButton(bp1, timeElapsedMillis);
+                    timerHandler.postDelayed(this, 1000); // Update every second
+                }
+            };
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError)
@@ -111,7 +122,8 @@ public class Dashboard extends AppCompatActivity
                             sp2.setText("Place 2 : " + place2);
                             I2.setVisibility(View.VISIBLE);
                         }
-                        else if (place2.equals("Free") && startTime > 0)
+
+                        if (place2.equals("Free"))
                         {
                             endTime = System.currentTimeMillis();
                             timerHandler.removeCallbacks(updateTimerRunnable); // Stop the timer runnable
@@ -120,9 +132,18 @@ public class Dashboard extends AppCompatActivity
                             sp2.setText("Place 2 : " + place2);
                             I2.setVisibility(View.INVISIBLE);
                         }
-
                     }
                 }
+                Runnable updateTimerRunnable = new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        long timeElapsedMillis = System.currentTimeMillis() - startTime;
+                        updateTimeOnButton(bp2, timeElapsedMillis);
+                        timerHandler.postDelayed(this, 1000); // Update every second
+                    }
+                };
             }
 
             @Override
@@ -131,6 +152,8 @@ public class Dashboard extends AppCompatActivity
                 //Toast.makeText(Home.this, "No Data", Toast.LENGTH_LONG).show();
             }
         });
+
+
 
         btnDisconnect.setOnClickListener(new View.OnClickListener()
         {
@@ -142,8 +165,18 @@ public class Dashboard extends AppCompatActivity
                 finish();
             }
         });
-
     }
+    private Runnable updateTimerRunnable = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            long timeElapsedMillis = System.currentTimeMillis() - startTime;
+            updateTimeOnButton(bp1, timeElapsedMillis);
+            updateTimeOnButton(bp2, timeElapsedMillis);
+            timerHandler.postDelayed(this, 1000); // Update every second
+        }
+    };
 
     private void updateTimeOnButton(Button button, long timeElapsedMillis)
     {
@@ -185,15 +218,4 @@ public class Dashboard extends AppCompatActivity
         double hours = (double) timeElapsedMillis / (1000 * 60 * 60);
         return hourlyRate * hours;
     }
-
-    private Runnable updateTimerRunnable = new Runnable()
-    {
-        @Override
-        public void run()
-        {
-            long timeElapsedMillis = System.currentTimeMillis() - startTime;
-            updateTimeOnButton(bp1, timeElapsedMillis);
-            timerHandler.postDelayed(this, 1000); // Update every second
-        }
-    };
 }
