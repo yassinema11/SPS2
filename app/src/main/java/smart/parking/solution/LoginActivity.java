@@ -36,8 +36,11 @@ public class LoginActivity extends AppCompatActivity
     FirebaseDatabase firebasedatabase;
     FirebaseFirestore db;
 
+    String a1 = EmailId.getText().toString();
+    String b1 = PasswordId.getText().toString();
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -99,43 +102,20 @@ public class LoginActivity extends AppCompatActivity
                                     String b = doc.getString("Password");
                                     String c = doc.getString("Phone");
 
-                                    String a1 = EmailId.getText().toString();
-                                    String b1 = PasswordId.getText().toString();
-
-
-                                    //email login
                                     if(a.equals(a1) && b.equals(b1))
                                     {
-                                        Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
-                                        Intent home = new Intent(LoginActivity.this, Dashboard.class);
-                                        startActivity(home);
-                                        finish();
+                                        //email login
+                                        User user = new User(a1, b1);
+                                        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+                                        sessionManagement.saveSession(user);
+
+                                        //2. step
+                                        moveToMainActivity();
                                     }
                                     else
                                     {
-                                        LoginUser.setText("ERROR ! ");
-                                        LoginUser.setError("");
-                                        Toast.makeText(LoginActivity.this, "Please provide correct Email or Password", Toast.LENGTH_SHORT).show();
-                                        LoginUser.setText("LOGIN");
+                                        Toast.makeText(LoginActivity.this, "DAta",Toast.LENGTH_LONG).show();
                                     }
-
-
-                                    //phone login
-                                    if(c.equals(a1) && b.equals(b1))
-                                    {
-                                        Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
-                                        Intent home = new Intent(LoginActivity.this, Dashboard.class);
-                                        startActivity(home);
-                                        finish();
-                                    }
-                                    else
-                                    {
-                                        LoginUser.setText("ERROR ! ");
-                                        LoginUser.setError("");
-                                        Toast.makeText(LoginActivity.this, "Please provide correct Email or Password", Toast.LENGTH_SHORT).show();
-                                        LoginUser.setText("LOGIN");
-                                    }
-
                                 }
                             }
                         }
@@ -209,7 +189,7 @@ public class LoginActivity extends AppCompatActivity
         // 2. move to mainActivity
 
         //1. login and save session
-        User user = new User(user.getEmail(),"Ankit");
+        User user = new User(a1,b1);
         SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
         sessionManagement.saveSession(user);
 
