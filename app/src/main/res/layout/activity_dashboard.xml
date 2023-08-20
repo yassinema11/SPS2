@@ -43,15 +43,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/cctv_left" />
 
-            <ImageView
-                android:id="@+id/cam2"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/cctv_right" />
-
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
