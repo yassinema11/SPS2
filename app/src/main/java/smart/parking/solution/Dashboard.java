@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Dashboard extends AppCompatActivity
 {
-    ImageView I1, I2 ,I3 ,I4;
+    ImageView I1, I2 ,I3 ,I4, C1,C2;
     TextView sp1, sp2 ,sp3, sp4;
     Button bp1, bp2 ,bp3 ,bp4 , btnDisconnect;
 
@@ -30,8 +30,8 @@ public class Dashboard extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        I1 = findViewById(R.id.p3);
-        I2 = findViewById(R.id.p4);
+        I1 = findViewById(R.id.p1);
+        I2 = findViewById(R.id.p2);
         I3 = findViewById(R.id.p3);
         I4 = findViewById(R.id.p4);
 
@@ -40,10 +40,13 @@ public class Dashboard extends AppCompatActivity
         sp3 = findViewById(R.id.sp3);
         sp4 = findViewById(R.id.sp4);
 
-        bp1 = findViewById(R.id.btnp3);
-        bp2 = findViewById(R.id.btnp4);
+        bp1 = findViewById(R.id.btnp1);
+        bp2 = findViewById(R.id.btnp2);
         bp3 = findViewById(R.id.btnp3);
         bp4 = findViewById(R.id.btnp4);
+
+        C1 = findViewById(R.id.cam1);
+        C2 = findViewById(R.id.cam2);
 
         btnDisconnect = findViewById(R.id.disconnect);
 
@@ -67,12 +70,14 @@ public class Dashboard extends AppCompatActivity
                         {
                             sp1.setText("Place 1 : "+place1);
                             I1.setVisibility(View.INVISIBLE);
+                            bp1.setEnabled(false);
                         }
 
                         if (place1.equals("Reserved"))
                         {
                             sp1.setText("Place 1 : "+place1);
                             I1.setVisibility(View.VISIBLE);
+                            bp1.setEnabled(true);
                         }
                     }
                 }
@@ -101,12 +106,14 @@ public class Dashboard extends AppCompatActivity
                         {
                             sp2.setText("Place 2 : "+place2);
                             I2.setVisibility(View.INVISIBLE);
+                            bp2.setEnabled(false);
                         }
 
                         if (place2.equals("Reserved"))
                         {
                             sp2.setText("Place 2 : "+place2);
                             I2.setVisibility(View.VISIBLE);
+                            bp2.setEnabled(true);
                         }
                     }}
             }
@@ -134,12 +141,14 @@ public class Dashboard extends AppCompatActivity
                         {
                             sp3.setText("Place 3 : "+place3);
                             I3.setVisibility(View.INVISIBLE);
+                            bp3.setEnabled(false);
                         }
 
                         if (place3.equals("Reserved"))
                         {
                             sp3.setText("Place 3 : "+place3);
                             I3.setVisibility(View.VISIBLE);
+                            bp3.setEnabled(true);
                         }
                     }}
             }
@@ -168,12 +177,14 @@ public class Dashboard extends AppCompatActivity
                         {
                             sp4.setText("Place 4 : "+place4);
                             I4.setVisibility(View.INVISIBLE);
+                            bp4.setEnabled(false);
                         }
 
                         if (place4.equals("Reserved"))
                         {
                             sp4.setText("Place 4 : "+place4);
                             I4.setVisibility(View.VISIBLE);
+                            bp4.setEnabled(true);
                         }
                     }}
             }
@@ -193,6 +204,26 @@ public class Dashboard extends AppCompatActivity
                 Intent toLoginActivity = new Intent(Dashboard.this, LoginActivity.class);
                 startActivity(toLoginActivity);
                 finish();
+            }
+        });
+
+        C1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent camAct = new Intent(Dashboard.this, CameraView.class);
+                startActivity(camAct);
+            }
+        });
+
+        C2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent camAct = new Intent(Dashboard.this, CameraView.class);
+                startActivity(camAct);
             }
         });
 
