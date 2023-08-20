@@ -3,11 +3,8 @@ package smart.parking.solution;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,16 +18,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.concurrent.TimeUnit;
-
 public class Dashboard extends AppCompatActivity
 {
-    ImageView I1, I2;
-    TextView sp1, sp2;
-    Button bp1, bp2, btnDisconnect;
-    private Handler timerHandler = new Handler();
-    private long startTime;
-    private long endTime;
+    ImageView I1, I2 ,I3 ,I4;
+    TextView sp1, sp2 ,sp3, sp4;
+    Button bp1, bp2 ,bp3 ,bp4 , btnDisconnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,14 +30,20 @@ public class Dashboard extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        I1 = findViewById(R.id.p1);
-        I2 = findViewById(R.id.p2);
+        I1 = findViewById(R.id.p3);
+        I2 = findViewById(R.id.p4);
+        I3 = findViewById(R.id.p3);
+        I4 = findViewById(R.id.p4);
 
         sp1 = findViewById(R.id.sp1);
         sp2 = findViewById(R.id.sp2);
+        sp3 = findViewById(R.id.sp3);
+        sp4 = findViewById(R.id.sp4);
 
-        bp1 = findViewById(R.id.btnp1);
-        bp2 = findViewById(R.id.btnp2);
+        bp1 = findViewById(R.id.btnp3);
+        bp2 = findViewById(R.id.btnp4);
+        bp3 = findViewById(R.id.btnp3);
+        bp4 = findViewById(R.id.btnp4);
 
         btnDisconnect = findViewById(R.id.disconnect);
 
@@ -53,6 +51,7 @@ public class Dashboard extends AppCompatActivity
         DatabaseReference database;
 
         database = FirebaseDatabase.getInstance("https://sps-v2-default-rtdb.firebaseio.com").getReference();
+
 
         database.addValueEventListener(new ValueEventListener()
         {
@@ -64,37 +63,20 @@ public class Dashboard extends AppCompatActivity
                     String place1 = snapshot.child("Spot1").getValue(String.class);
                     if(place1 != null)
                     {
-                        if (place1.equals("Reserved"))
+                        if (place1.equals("Free"))
                         {
-                            startTime = System.currentTimeMillis();
-                            timerHandler.postDelayed(updateTimerRunnable, 0);
-                            sp1.setText("Place 1 : " + place1);
-                            I1.setVisibility(View.VISIBLE);
+                            sp1.setText("Place 1 : "+place1);
+                            I1.setVisibility(View.INVISIBLE);
                         }
 
-                        if(place1.equals("Free"))
+                        if (place1.equals("Reserved"))
                         {
-                            endTime = System.currentTimeMillis();
-                            timerHandler.removeCallbacks(updateTimerRunnable); // Stop the timer runnable
-                            showPaymentDialog(endTime - startTime); // Show the payment dialog
-                            startTime = 0; // Reset the timer
-                            sp1.setText("Place 1 : " + place1);
-                            I1.setVisibility(View.INVISIBLE);
+                            sp1.setText("Place 1 : "+place1);
+                            I1.setVisibility(View.VISIBLE);
                         }
                     }
                 }
             }
-
-            Runnable updateTimerRunnable = new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    long timeElapsedMillis = System.currentTimeMillis() - startTime;
-                    updateTimeOnButton(bp1, timeElapsedMillis);
-                    timerHandler.postDelayed(this, 1000); // Update every second
-                }
-            };
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError)
@@ -108,42 +90,58 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     String place2 = snapshot.child("Spot2").getValue(String.class);
 
                     if (place2 != null)
                     {
-                        // Inside onDataChange for Spot2
-                        if (place2.equals("Reserved"))
-                        {
-                            startTime = System.currentTimeMillis();
-                            timerHandler.postDelayed(updateTimerRunnable, 0);
-                            sp2.setText("Place 2 : " + place2);
-                            I2.setVisibility(View.VISIBLE);
-                        }
-
                         if (place2.equals("Free"))
                         {
-                            endTime = System.currentTimeMillis();
-                            timerHandler.removeCallbacks(updateTimerRunnable); // Stop the timer runnable
-                            showPaymentDialog(endTime - startTime); // Show the payment dialog
-                            startTime = 0; // Reset the timer
-                            sp2.setText("Place 2 : " + place2);
+                            sp2.setText("Place 2 : "+place2);
                             I2.setVisibility(View.INVISIBLE);
                         }
-                    }
-                }
-                Runnable updateTimerRunnable = new Runnable()
+
+                        if (place2.equals("Reserved"))
+                        {
+                            sp2.setText("Place 2 : "+place2);
+                            I2.setVisibility(View.VISIBLE);
+                        }
+                    }}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+                //Toast.makeText(Home.this, "No Data", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        database.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
-                    @Override
-                    public void run()
+                    String place3 = snapshot.child("Spot3").getValue(String.class);
+
+                    if (place3 != null)
                     {
-                        long timeElapsedMillis = System.currentTimeMillis() - startTime;
-                        updateTimeOnButton(bp2, timeElapsedMillis);
-                        timerHandler.postDelayed(this, 1000); // Update every second
-                    }
-                };
+                        if (place3.equals("Free"))
+                        {
+                            sp3.setText("Place 3 : "+place3);
+                            I3.setVisibility(View.INVISIBLE);
+                        }
+
+                        if (place3.equals("Reserved"))
+                        {
+                            sp3.setText("Place 3 : "+place3);
+                            I3.setVisibility(View.VISIBLE);
+                        }
+                    }}
             }
 
             @Override
@@ -154,6 +152,38 @@ public class Dashboard extends AppCompatActivity
         });
 
 
+        database.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    String place4 = snapshot.child("Spot4").getValue(String.class);
+
+                    if (place4 != null)
+                    {
+                        if (place4.equals("Free"))
+                        {
+                            sp4.setText("Place 4 : "+place4);
+                            I4.setVisibility(View.INVISIBLE);
+                        }
+
+                        if (place4.equals("Reserved"))
+                        {
+                            sp4.setText("Place 4 : "+place4);
+                            I4.setVisibility(View.VISIBLE);
+                        }
+                    }}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+                //Toast.makeText(Home.this, "No Data", Toast.LENGTH_LONG).show();
+            }
+        });
 
         btnDisconnect.setOnClickListener(new View.OnClickListener()
         {
@@ -165,57 +195,6 @@ public class Dashboard extends AppCompatActivity
                 finish();
             }
         });
-    }
-    private Runnable updateTimerRunnable = new Runnable()
-    {
-        @Override
-        public void run()
-        {
-            long timeElapsedMillis = System.currentTimeMillis() - startTime;
-            updateTimeOnButton(bp1, timeElapsedMillis);
-            updateTimeOnButton(bp2, timeElapsedMillis);
-            timerHandler.postDelayed(this, 1000); // Update every second
-        }
-    };
 
-    private void updateTimeOnButton(Button button, long timeElapsedMillis)
-    {
-        long hours = TimeUnit.MILLISECONDS.toHours(timeElapsedMillis);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeElapsedMillis) % 60;
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeElapsedMillis) % 60;
-
-        String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        button.setText("Timer: " + timeFormatted);
-    }
-
-
-    // Method to show payment AlertDialog
-    private void showPaymentDialog(long timeElapsedMillis)
-    {
-        // Calculate payment amount (adjust this calculation based on your pricing logic)
-        double paymentAmount = calculatePaymentAmount(timeElapsedMillis);
-
-        // Convert time elapsed to hours, minutes, and seconds
-        long hours = TimeUnit.MILLISECONDS.toHours(timeElapsedMillis);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeElapsedMillis) % 60;
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeElapsedMillis) % 60;
-
-        String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Dashboard.this);
-        alertDialogBuilder.setTitle("Parking Payment");
-        alertDialogBuilder.setMessage("Duration: " + timeFormatted + "\n Payment Amount: $" + paymentAmount);
-        alertDialogBuilder.setPositiveButton("OK", null);
-        alertDialogBuilder.show();
-    }
-
-    // Method to calculate payment amount (adjust this based on your pricing logic)
-    private double calculatePaymentAmount(long timeElapsedMillis)
-    {
-        // Your payment calculation logic here
-        // For example, assuming $0.50 per hour:
-        double hourlyRate = 3000;
-        double hours = (double) timeElapsedMillis / (1000 * 60 * 60);
-        return hourlyRate * hours;
     }
 }
