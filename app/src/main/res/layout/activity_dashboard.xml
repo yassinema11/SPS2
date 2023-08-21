@@ -47,7 +47,6 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:layout_marginTop="32dp"
                 android:text="Dashboard"
                 android:textColor="@color/white"
@@ -126,7 +125,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/bouttons"
+                android:id="@+id/bouttons1"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@id/imgs"
@@ -144,7 +143,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/orange_button"
-                    android:text="Timer"></Button>
+                    android:text="Timer" />
 
                 <Button
                     android:id="@+id/btnp2"
@@ -153,7 +152,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/orange_button"
-                    android:text="Timer"></Button>
+                    android:text="Timer" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -229,7 +228,7 @@
                 android:id="@+id/bouttons"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_below="@id/imgs"
+                android:layout_below="@id/img2"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -244,7 +243,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/orange_button"
-                    android:text="Timer"></Button>
+                    android:text="Timer" />
 
                 <Button
                     android:id="@+id/btnp4"
@@ -253,7 +252,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/orange_button"
-                    android:text="Timer"></Button>
+                    android:text="Timer" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

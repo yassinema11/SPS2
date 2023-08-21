@@ -96,7 +96,6 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     String place2 = snapshot.child("Spot2").getValue(String.class);
@@ -131,7 +130,6 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     String place3 = snapshot.child("Spot3").getValue(String.class);
@@ -167,7 +165,6 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     String place4 = snapshot.child("Spot4").getValue(String.class);

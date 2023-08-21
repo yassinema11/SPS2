@@ -51,7 +51,7 @@
             android:padding="8dp"
             android:textColor="#8e8e8e"
             android:textColorHint="#8e8e8e"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/Email_field"
@@ -75,7 +75,7 @@
             android:padding="8dp"
             android:textColor="#8e8e8e"
             android:textColorHint="#8e8e8e"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/Email_login_field"
@@ -119,7 +119,7 @@
                 android:padding="8dp"
                 android:textColor="#8e8e8e"
                 android:textColorHint="#8e8e8e"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/countryCodePicker"
@@ -151,7 +151,7 @@
                 android:padding="8dp"
                 android:textColor="#8e8e8e"
                 android:textColorHint="#8e8e8e"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
