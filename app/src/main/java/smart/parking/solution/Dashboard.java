@@ -22,7 +22,7 @@ public class Dashboard extends AppCompatActivity
 {
     ImageView I1, I2 ,I3 ,I4, C1;
     TextView sp1, sp2 ,sp3, sp4;
-    Button bp1, bp2 ,bp3 ,bp4 , btnDisconnect;
+    Button bp1, bp2 ,bp3 ,bp4 , btnCam, btnDisconnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +46,8 @@ public class Dashboard extends AppCompatActivity
         bp4 = findViewById(R.id.btnp4);
 
         C1 = findViewById(R.id.cam1);
+        btnCam = findViewById(R.id.camView);
+
 
         btnDisconnect = findViewById(R.id.disconnect);
 
@@ -207,6 +209,16 @@ public class Dashboard extends AppCompatActivity
         });
 
         C1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent camAct = new Intent(Dashboard.this, CameraView.class);
+                startActivity(camAct);
+            }
+        });
+
+        btnCam.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
