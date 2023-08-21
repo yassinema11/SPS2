@@ -74,9 +74,12 @@ public class Dashboard extends AppCompatActivity
                     {
                         if (place1.equals("Free"))
                         {
-                            sp1.setText("Place 1 : "+place1);
-                            I1.setVisibility(View.INVISIBLE);
-                            bp1.setEnabled(false);
+                            if (timer1 != null) {
+                                sp1.setText("Place 1 : " + place1);
+                                I1.setVisibility(View.INVISIBLE);
+                                bp1.setEnabled(false);
+                                timer1.onFinish();
+                            }
                         }
 
                         if (place1.equals("Reserved"))
@@ -85,14 +88,7 @@ public class Dashboard extends AppCompatActivity
                             I1.setVisibility(View.VISIBLE);
                             bp1.setEnabled(true);
 
-                            bp1.setOnClickListener(new View.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(View v)
-                                {
-                                    showReservationDialog1();
-                                }
-                            });
+                            showReservationDialog1();
                         }
                     }
                 }
@@ -129,14 +125,7 @@ public class Dashboard extends AppCompatActivity
                             I2.setVisibility(View.VISIBLE);
                             bp2.setEnabled(true);
 
-                            bp2.setOnClickListener(new View.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(View v)
-                                {
-                                    showReservationDialog2();
-                                }
-                            });
+                            showReservationDialog2();
                         }
                     }}
             }
@@ -172,15 +161,7 @@ public class Dashboard extends AppCompatActivity
                             I3.setVisibility(View.VISIBLE);
                             bp3.setEnabled(true);
 
-                            bp3.setOnClickListener(new View.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(View v)
-                                {
-                                    showReservationDialog3();
-                                }
-                            });
-
+                            showReservationDialog3();
                         }
                     }}
             }
@@ -217,14 +198,8 @@ public class Dashboard extends AppCompatActivity
                             I4.setVisibility(View.VISIBLE);
                             bp4.setEnabled(true);
 
-                            bp4.setOnClickListener(new View.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(View v)
-                                {
-                                    showReservationDialog4();
-                                }
-                            });
+                            showReservationDialog4();
+
                         }
                     }}
             }
@@ -269,39 +244,14 @@ public class Dashboard extends AppCompatActivity
     }
     private void showReservationDialog1()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Place Reservation");
 
-        if (timer1 != null)
-        {
-            timer1.cancel();
             endTimeMillis1 = System.currentTimeMillis();
-
             long elapsedTimeMillis = endTimeMillis1 - startTimeMillis1;
             long seconds = elapsedTimeMillis / 1000;
             long amount = seconds * 10; // Example: $10 per second
 
-            builder.setMessage("Reserved time: " + seconds + " seconds\nAmount: $" + amount);
-        }
-        else
-        {
             startTimeMillis1 = System.currentTimeMillis();
-
-            builder.setMessage("Place reserved.");
             startTimer1();
-        }
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void startTimer1()
@@ -311,7 +261,13 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onTick(long millisUntilFinished)
             {
-                // Update UI to show the remaining time if needed
+                // Calculate elapsed time
+                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis1;
+                long elapsedSeconds = elapsedTimeMillis / 1000;
+
+                // Update UI with elapsed time
+                bp1.setText(String.format("Time: %02d:%02d:%02d",
+                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
             }
 
             @Override
@@ -319,48 +275,24 @@ public class Dashboard extends AppCompatActivity
             {
                 // Timer finished, place becomes free
                 timer1 = null;
+                bp1.setText("Free");
                 // Update UI to show the place is free
             }
         };
-
         timer1.start();
     }
 
     private void showReservationDialog2()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Place Reservation");
-
-        if (timer2 != null)
-        {
-            timer2.cancel();
             endTimeMillis2 = System.currentTimeMillis();
 
             long elapsedTimeMillis = endTimeMillis2 - startTimeMillis2;
             long seconds = elapsedTimeMillis / 1000;
             long amount = seconds * 10; // Example: $10 per second
-
-            builder.setMessage("Reserved time: " + seconds + " seconds\nAmount: $" + amount);
-        }
-        else
-        {
             startTimeMillis2 = System.currentTimeMillis();
 
-            builder.setMessage("Place reserved.");
             startTimer2();
-        }
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void startTimer2()
@@ -370,7 +302,13 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onTick(long millisUntilFinished)
             {
-                // Update UI to show the remaining time if needed
+                // Calculate elapsed time
+                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis2;
+                long elapsedSeconds = elapsedTimeMillis / 1000;
+
+                // Update UI with elapsed time
+                bp2.setText(String.format("Time: %02d:%02d:%02d",
+                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
             }
 
             @Override
@@ -378,6 +316,7 @@ public class Dashboard extends AppCompatActivity
             {
                 // Timer finished, place becomes free
                 timer2 = null;
+                bp2.setText("Free");
                 // Update UI to show the place is free
             }
         };
@@ -387,39 +326,16 @@ public class Dashboard extends AppCompatActivity
 
     private void showReservationDialog3()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Place Reservation");
-
-        if (timer3 != null)
-        {
-            timer3.cancel();
             endTimeMillis3 = System.currentTimeMillis();
 
             long elapsedTimeMillis = endTimeMillis3 - startTimeMillis3;
             long seconds = elapsedTimeMillis / 1000;
             long amount = seconds * 10; // Example: $10 per second
 
-            builder.setMessage("Reserved time: " + seconds + " seconds\nAmount: $" + amount);
-        }
-        else
-        {
             startTimeMillis3 = System.currentTimeMillis();
 
-            builder.setMessage("Place reserved.");
             startTimer3();
-        }
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void startTimer3()
@@ -429,7 +345,13 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onTick(long millisUntilFinished)
             {
-                // Update UI to show the remaining time if needed
+                // Calculate elapsed time
+                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis3;
+                long elapsedSeconds = elapsedTimeMillis / 1000;
+
+                // Update UI with elapsed time
+                bp3.setText(String.format("Time: %02d:%02d:%02d",
+                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
             }
 
             @Override
@@ -437,6 +359,8 @@ public class Dashboard extends AppCompatActivity
             {
                 // Timer finished, place becomes free
                 timer3 = null;
+                bp3.setText("Free");
+
                 // Update UI to show the place is free
             }
         };
@@ -444,42 +368,19 @@ public class Dashboard extends AppCompatActivity
         timer3.start();
     }
 
+
     private void showReservationDialog4()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Place Reservation");
-
-        if (timer4 != null)
-        {
-            timer4.cancel();
             endTimeMillis4 = System.currentTimeMillis();
 
             long elapsedTimeMillis = endTimeMillis4 - startTimeMillis4;
             long seconds = elapsedTimeMillis / 1000;
             long amount = seconds * 10; // Example: $10 per second
 
-            builder.setMessage("Reserved time: " + seconds + " seconds\nAmount: $" + amount);
-        }
-        else
-        {
             startTimeMillis4 = System.currentTimeMillis();
-
-            builder.setMessage("Place reserved.");
             startTimer4();
-        }
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
+
 
     private void startTimer4()
     {
@@ -488,7 +389,13 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onTick(long millisUntilFinished)
             {
-                // Update UI to show the remaining time if needed
+                // Calculate elapsed time
+                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis4;
+                long elapsedSeconds = elapsedTimeMillis / 1000;
+
+                // Update UI with elapsed time
+                bp4.setText(String.format("Time: %02d:%02d:%02d",
+                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
             }
 
             @Override
@@ -497,9 +404,9 @@ public class Dashboard extends AppCompatActivity
                 // Timer finished, place becomes free
                 timer4 = null;
                 // Update UI to show the place is free
+                bp4.setText("Free");
             }
         };
-
         timer4.start();
     }
 }
