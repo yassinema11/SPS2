@@ -2,10 +2,18 @@ package smart.parking.solution;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -58,11 +66,22 @@ public class Dashboard extends AppCompatActivity
         btnDisconnect = findViewById(R.id.disconnect);
 
         FirebaseApp.initializeApp(Dashboard.this);
-        DatabaseReference database;
+        DatabaseReference database1,database2,database3,database4;
 
-        database = FirebaseDatabase.getInstance("https://sps-v2-default-rtdb.firebaseio.com").getReference();
+        database1 = FirebaseDatabase.getInstance("https://sps-v2-default-rtdb.firebaseio.com").getReference();
+        database2 = FirebaseDatabase.getInstance("https://sps-v2-default-rtdb.firebaseio.com").getReference();
+        database3 = FirebaseDatabase.getInstance("https://sps-v2-default-rtdb.firebaseio.com").getReference();
+        database4 = FirebaseDatabase.getInstance("https://sps-v2-default-rtdb.firebaseio.com").getReference();
 
-        database.addValueEventListener(new ValueEventListener()
+        if (!isUserLoggedIn())
+        {
+            Intent intent = new Intent(Dashboard.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        database1.addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -74,21 +93,17 @@ public class Dashboard extends AppCompatActivity
                     {
                         if (place1.equals("Free"))
                         {
-                            if (timer1 != null) {
-                                sp1.setText("Place 1 : " + place1);
-                                I1.setVisibility(View.INVISIBLE);
-                                bp1.setEnabled(false);
-                                timer1.onFinish();
-                            }
-                        }
+                            sp1.setText("Place 1 : " + place1);
+                            I1.setVisibility(View.INVISIBLE);
+                            bp1.setEnabled(false);
+                            bp1.setText("Free");
 
+                        }
                         if (place1.equals("Reserved"))
                         {
                             sp1.setText("Place 1 : "+place1);
                             I1.setVisibility(View.VISIBLE);
                             bp1.setEnabled(true);
-
-                            showReservationDialog1();
                         }
                     }
                 }
@@ -101,7 +116,7 @@ public class Dashboard extends AppCompatActivity
             }
         });
 
-        database.addValueEventListener(new ValueEventListener()
+        database2.addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -117,6 +132,8 @@ public class Dashboard extends AppCompatActivity
                             sp2.setText("Place 2 : "+place2);
                             I2.setVisibility(View.INVISIBLE);
                             bp2.setEnabled(false);
+                            bp2.setText("Free");
+
                         }
 
                         if (place2.equals("Reserved"))
@@ -124,8 +141,6 @@ public class Dashboard extends AppCompatActivity
                             sp2.setText("Place 2 : "+place2);
                             I2.setVisibility(View.VISIBLE);
                             bp2.setEnabled(true);
-
-                            showReservationDialog2();
                         }
                     }}
             }
@@ -137,7 +152,7 @@ public class Dashboard extends AppCompatActivity
             }
         });
 
-        database.addValueEventListener(new ValueEventListener()
+        database3.addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -153,6 +168,8 @@ public class Dashboard extends AppCompatActivity
                             sp3.setText("Place 3 : "+place3);
                             I3.setVisibility(View.INVISIBLE);
                             bp3.setEnabled(false);
+                            bp3.setText("Free");
+
                         }
 
                         if (place3.equals("Reserved"))
@@ -160,8 +177,6 @@ public class Dashboard extends AppCompatActivity
                             sp3.setText("Place 3 : "+place3);
                             I3.setVisibility(View.VISIBLE);
                             bp3.setEnabled(true);
-
-                            showReservationDialog3();
                         }
                     }}
             }
@@ -174,7 +189,7 @@ public class Dashboard extends AppCompatActivity
         });
 
 
-        database.addValueEventListener(new ValueEventListener()
+        database4.addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -190,6 +205,7 @@ public class Dashboard extends AppCompatActivity
                             sp4.setText("Place 4 : "+place4);
                             I4.setVisibility(View.INVISIBLE);
                             bp4.setEnabled(false);
+                            bp4.setText("Free");
                         }
 
                         if (place4.equals("Reserved"))
@@ -197,9 +213,6 @@ public class Dashboard extends AppCompatActivity
                             sp4.setText("Place 4 : "+place4);
                             I4.setVisibility(View.VISIBLE);
                             bp4.setEnabled(true);
-
-                            showReservationDialog4();
-
                         }
                     }}
             }
@@ -217,6 +230,7 @@ public class Dashboard extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent toLoginActivity = new Intent(Dashboard.this, LoginActivity.class);
+                clearUserSession();
                 startActivity(toLoginActivity);
                 finish();
             }
@@ -242,171 +256,19 @@ public class Dashboard extends AppCompatActivity
             }
         });
     }
-    private void showReservationDialog1()
+
+    private boolean isUserLoggedIn()
     {
-
-            endTimeMillis1 = System.currentTimeMillis();
-            long elapsedTimeMillis = endTimeMillis1 - startTimeMillis1;
-            long seconds = elapsedTimeMillis / 1000;
-            long amount = seconds * 10; // Example: $10 per second
-
-            startTimeMillis1 = System.currentTimeMillis();
-            startTimer1();
+        SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        return sharedPreferences.contains("email") && sharedPreferences.contains("password");
     }
 
-    private void startTimer1()
+    private void clearUserSession()
     {
-        timer1 = new CountDownTimer(Long.MAX_VALUE, 1000)
-        {
-            @Override
-            public void onTick(long millisUntilFinished)
-            {
-                // Calculate elapsed time
-                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis1;
-                long elapsedSeconds = elapsedTimeMillis / 1000;
-
-                // Update UI with elapsed time
-                bp1.setText(String.format("Time: %02d:%02d:%02d",
-                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
-            }
-
-            @Override
-            public void onFinish()
-            {
-                // Timer finished, place becomes free
-                timer1 = null;
-                bp1.setText("Free");
-                // Update UI to show the place is free
-            }
-        };
-        timer1.start();
+        SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
-    private void showReservationDialog2()
-    {
-            endTimeMillis2 = System.currentTimeMillis();
-
-            long elapsedTimeMillis = endTimeMillis2 - startTimeMillis2;
-            long seconds = elapsedTimeMillis / 1000;
-            long amount = seconds * 10; // Example: $10 per second
-            startTimeMillis2 = System.currentTimeMillis();
-
-            startTimer2();
-
-    }
-
-    private void startTimer2()
-    {
-        timer2 = new CountDownTimer(Long.MAX_VALUE, 1000)
-        {
-            @Override
-            public void onTick(long millisUntilFinished)
-            {
-                // Calculate elapsed time
-                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis2;
-                long elapsedSeconds = elapsedTimeMillis / 1000;
-
-                // Update UI with elapsed time
-                bp2.setText(String.format("Time: %02d:%02d:%02d",
-                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
-            }
-
-            @Override
-            public void onFinish()
-            {
-                // Timer finished, place becomes free
-                timer2 = null;
-                bp2.setText("Free");
-                // Update UI to show the place is free
-            }
-        };
-
-        timer2.start();
-    }
-
-    private void showReservationDialog3()
-    {
-            endTimeMillis3 = System.currentTimeMillis();
-
-            long elapsedTimeMillis = endTimeMillis3 - startTimeMillis3;
-            long seconds = elapsedTimeMillis / 1000;
-            long amount = seconds * 10; // Example: $10 per second
-
-            startTimeMillis3 = System.currentTimeMillis();
-
-            startTimer3();
-
-    }
-
-    private void startTimer3()
-    {
-        timer3 = new CountDownTimer(Long.MAX_VALUE, 1000)
-        {
-            @Override
-            public void onTick(long millisUntilFinished)
-            {
-                // Calculate elapsed time
-                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis3;
-                long elapsedSeconds = elapsedTimeMillis / 1000;
-
-                // Update UI with elapsed time
-                bp3.setText(String.format("Time: %02d:%02d:%02d",
-                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
-            }
-
-            @Override
-            public void onFinish()
-            {
-                // Timer finished, place becomes free
-                timer3 = null;
-                bp3.setText("Free");
-
-                // Update UI to show the place is free
-            }
-        };
-
-        timer3.start();
-    }
-
-
-    private void showReservationDialog4()
-    {
-            endTimeMillis4 = System.currentTimeMillis();
-
-            long elapsedTimeMillis = endTimeMillis4 - startTimeMillis4;
-            long seconds = elapsedTimeMillis / 1000;
-            long amount = seconds * 10; // Example: $10 per second
-
-            startTimeMillis4 = System.currentTimeMillis();
-            startTimer4();
-    }
-
-
-    private void startTimer4()
-    {
-        timer4 = new CountDownTimer(Long.MAX_VALUE, 1000)
-        {
-            @Override
-            public void onTick(long millisUntilFinished)
-            {
-                // Calculate elapsed time
-                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis4;
-                long elapsedSeconds = elapsedTimeMillis / 1000;
-
-                // Update UI with elapsed time
-                bp4.setText(String.format("Time: %02d:%02d:%02d",
-                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
-            }
-
-            @Override
-            public void onFinish()
-            {
-                // Timer finished, place becomes free
-                timer4 = null;
-                // Update UI to show the place is free
-                bp4.setText("Free");
-            }
-        };
-        timer4.start();
-    }
 }

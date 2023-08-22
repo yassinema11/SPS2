@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity
         db = FirebaseFirestore.getInstance();
 
 
+
         LoginUser.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -107,14 +108,14 @@ public class LoginActivity extends AppCompatActivity
                                     if(a.equals(a1) && b.equals(b1))
                                     {
                                         Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
+                                        saveUserSession(a1, b1);
                                         Intent home = new Intent(LoginActivity.this, Dashboard.class);
                                         startActivity(home);
                                         finish();
                                     }
                                     else
                                     {
-                                        LoginUser.setText("ERROR ! ");
-                                        LoginUser.setError("");
+                                        LoginUser.setError("Please Provide Correct EMAIL or Password ");
                                         LoginUser.setText("LOGIN");
                                     }
 
@@ -175,4 +176,28 @@ public class LoginActivity extends AppCompatActivity
             }
         });
     }
+
+    private void saveUserSession(String email, String password)
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.apply();
+    }
+
+    private boolean isUserLoggedIn()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        return sharedPreferences.contains("email") && sharedPreferences.contains("password");
+    }
+
+    private void clearUserSession()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
 }
