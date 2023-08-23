@@ -98,36 +98,12 @@ public class Dashboard extends AppCompatActivity
                             bp1.setEnabled(false);
                             bp1.setText("Free");
 
-                            if (timer1 != null)
-                            {
-                                timer1.cancel();
-                            }
-
                         }
                         if (place1.equals("Reserved"))
                         {
                             sp1.setText("Place 1 : "+place1);
                             I1.setVisibility(View.VISIBLE);
                             bp1.setEnabled(true);
-
-                            timer1 = new CountDownTimer(Long.MAX_VALUE, 1000)
-                            {
-                                @Override
-                                public void onTick(long millisUntilFinished1)
-                                {
-                                    // Calculate elapsed time
-                                    long elapsedTimeMillis1 = System.currentTimeMillis() - startTimeMillis1;
-                                    long elapsedSeconds1 = elapsedTimeMillis1 / 1000;
-
-                                    // Update UI with elapsed time
-                                    bp1.setText(String.format("Time: %02d:%02d:%02d", elapsedSeconds1 / 3600, (elapsedSeconds1 % 3600) / 60, elapsedSeconds1 % 60));
-                                }
-
-                                @Override
-                                public void onFinish()
-                                {
-                                }
-                            };
                         }
                     }
                 }
@@ -158,11 +134,6 @@ public class Dashboard extends AppCompatActivity
                             bp2.setEnabled(false);
                             bp2.setText("Free");
 
-                            if (timer2 != null)
-                            {
-                                timer2.cancel();
-                            }
-
                         }
 
                         if (place2.equals("Reserved"))
@@ -170,28 +141,9 @@ public class Dashboard extends AppCompatActivity
                             sp2.setText("Place 2 : "+place2);
                             I2.setVisibility(View.VISIBLE);
                             bp2.setEnabled(true);
-
-                            timer2 = new CountDownTimer(Long.MAX_VALUE, 1000)
-                            {
-                                @Override
-                                public void onTick(long millisUntilFinished2)
-                                {
-                                    // Calculate elapsed time
-                                    long elapsedTimeMilli2 = System.currentTimeMillis() - startTimeMillis2;
-                                    long elapsedSecond2 = elapsedTimeMilli2 / 1000;
-
-                                    // Update UI with elapsed time
-                                    bp2.setText(String.format("Time: %02d:%02d:%02d", elapsedSecond2 / 3600, (elapsedSecond2 % 3600) / 60, elapsedSecond2 % 60));
-                                }
-
-                                @Override
-                                public void onFinish()
-                                {
-                                }
-                            };
-
                         }
-                    }}
+                    }
+                }
             }
 
             @Override
@@ -225,25 +177,6 @@ public class Dashboard extends AppCompatActivity
                             sp3.setText("Place 3 : "+place3);
                             I3.setVisibility(View.VISIBLE);
                             bp3.setEnabled(true);
-
-                            timer3 = new CountDownTimer(Long.MAX_VALUE, 1000)
-                            {
-                                @Override
-                                public void onTick(long millisUntilFinishe3)
-                                {
-                                    // Calculate elapsed time
-                                    long elapsedTimeMilli3 = System.currentTimeMillis() - startTimeMillis3;
-                                    long elapsedSecond3 = elapsedTimeMilli3 / 1000;
-
-                                    // Update UI with elapsed time
-                                    bp3.setText(String.format("Time: %02d:%02d:%02d", elapsedSecond3 / 3600, (elapsedSecond3 % 3600) / 60, elapsedSecond3 % 60));
-                                }
-
-                                @Override
-                                public void onFinish()
-                                {
-                                }
-                            };
 
                         }
                     }}
@@ -281,26 +214,6 @@ public class Dashboard extends AppCompatActivity
                             sp4.setText("Place 4 : "+place4);
                             I4.setVisibility(View.VISIBLE);
                             bp4.setEnabled(true);
-
-                            timer4 = new CountDownTimer(Long.MAX_VALUE, 1000)
-                            {
-                                @Override
-                                public void onTick(long millisUntilFinished4)
-                                {
-                                    // Calculate elapsed time
-                                    long elapsedTimeMilli4 = System.currentTimeMillis() - startTimeMillis4;
-                                    long elapsedSeconds4 = elapsedTimeMilli4 / 1000;
-
-                                    // Update UI with elapsed time
-                                    bp4.setText(String.format("Time: %02d:%02d:%02d", elapsedSeconds4 / 3600, (elapsedSeconds4 % 3600) / 60, elapsedSeconds4 % 60));
-                                }
-
-                                @Override
-                                public void onFinish()
-                                {
-                                }
-                            };
-
                         }
                     }}
             }
