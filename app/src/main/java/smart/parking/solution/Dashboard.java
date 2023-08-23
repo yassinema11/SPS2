@@ -19,7 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.concurrent.TimeUnit;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity
+{
 
     private DatabaseReference databaseReference;
     private CountDownTimer[] timers = new CountDownTimer[4];
@@ -32,7 +33,8 @@ public class Dashboard extends AppCompatActivity {
     ImageView C1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
@@ -62,16 +64,19 @@ public class Dashboard extends AppCompatActivity {
 
         setupSpotListeners();
 
-        if (!isUserLoggedIn()) {
+        if (!isUserLoggedIn())
+        {
             Intent intent = new Intent(Dashboard.this, LoginActivity.class);
             startActivity(intent);
             finish();
             return;
         }
 
-        btnDisconnect.setOnClickListener(new View.OnClickListener() {
+        btnDisconnect.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent toLoginActivity = new Intent(Dashboard.this, LoginActivity.class);
                 clearUserSession();
                 startActivity(toLoginActivity);
@@ -79,46 +84,59 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        C1.setOnClickListener(new View.OnClickListener() {
+        C1.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent camAct = new Intent(Dashboard.this, CameraView.class);
                 startActivity(camAct);
             }
         });
 
-        btnCam.setOnClickListener(new View.OnClickListener() {
+        btnCam.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent camAct = new Intent(Dashboard.this, CameraView.class);
                 startActivity(camAct);
             }
         });
     }
 
-    private void setupSpotListeners() {
-        for (int i = 0; i < 4; i++) {
+    private void setupSpotListeners()
+    {
+        for (int i = 0; i < 4; i++)
+        {
             final int spotIndex = i;
-            databaseReference.child("Spot" + (spotIndex + 1)).addValueEventListener(new ValueEventListener() {
+            databaseReference.child("Spot" + (spotIndex + 1)).addValueEventListener(new ValueEventListener()
+            {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                {
                     String status = dataSnapshot.child("Status").getValue(String.class);
-                    if (status != null) {
+                    if (status != null)
+                    {
                         updateUI(spotIndex, status);
                     }
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError)
+                {
                     // Handle error
                 }
             });
         }
     }
 
-    private void updateUI(int spotIndex, String status) {
-        if (status.equals("Reserved")) {
-            if (!isSpotReserved[spotIndex]) {
+    private void updateUI(int spotIndex, String status)
+    {
+        if (status.equals("Reserved"))
+        {
+            if (!isSpotReserved[spotIndex])
+            {
                 startTimer(spotIndex);
             }
             isSpotReserved[spotIndex] = true;
@@ -133,18 +151,22 @@ public class Dashboard extends AppCompatActivity {
         }
     }
 
-    private void startTimer(int spotIndex) {
+    private void startTimer(int spotIndex)
+    {
         timersStartTimes[spotIndex] = System.currentTimeMillis();
 
-        timers[spotIndex] = new CountDownTimer(Long.MAX_VALUE, 1000) {
+        timers[spotIndex] = new CountDownTimer(Long.MAX_VALUE, 1000)
+        {
             @Override
-            public void onTick(long millisUntilFinished) {
+            public void onTick(long millisUntilFinished)
+            {
                 long elapsedTime = System.currentTimeMillis() - timersStartTimes[spotIndex];
                 updateTimerText(spotIndex, elapsedTime);
             }
 
             @Override
-            public void onFinish() {
+            public void onFinish()
+            {
                 // Timer finished
             }
         }.start();
@@ -158,8 +180,10 @@ public class Dashboard extends AppCompatActivity {
         TimerBtn[spotIndex].setText(hours + "h " + minutes + "m " + seconds + "s");
     }
 
-    private void stopTimer(int spotIndex) {
-        if (timers[spotIndex] != null) {
+    private void stopTimer(int spotIndex)
+    {
+        if (timers[spotIndex] != null)
+        {
             timers[spotIndex].cancel();
             timers[spotIndex] = null;
         }
@@ -173,12 +197,14 @@ public class Dashboard extends AppCompatActivity {
         Texts[spotIndex].setText(""+amount);
     }
 
-    private boolean isUserLoggedIn() {
+    private boolean isUserLoggedIn()
+    {
         SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
         return sharedPreferences.contains("email") && sharedPreferences.contains("password");
     }
 
-    private void clearUserSession() {
+    private void clearUserSession()
+    {
         SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
