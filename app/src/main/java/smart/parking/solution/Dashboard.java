@@ -352,7 +352,7 @@ public class Dashboard extends AppCompatActivity
         return sharedPreferences.contains("email") && sharedPreferences.contains("password");
     }
 
-    private void clearUserSession()
+    private void clearUserSession() 
     {
         SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
