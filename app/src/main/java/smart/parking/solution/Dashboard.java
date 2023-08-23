@@ -120,8 +120,7 @@ public class Dashboard extends AppCompatActivity
                                     long elapsedSeconds1 = elapsedTimeMillis1 / 1000;
 
                                     // Update UI with elapsed time
-                                    bp1.setText(String.format("Time: %02d:%02d:%02d",
-                                            elapsedSeconds1 / 3600, (elapsedSeconds1 % 3600) / 60, elapsedSeconds1 % 60));
+                                    bp1.setText(String.format("Time: %02d:%02d:%02d", elapsedSeconds1 / 3600, (elapsedSeconds1 % 3600) / 60, elapsedSeconds1 % 60));
                                 }
 
                                 @Override
@@ -182,8 +181,7 @@ public class Dashboard extends AppCompatActivity
                                     long elapsedSecond2 = elapsedTimeMilli2 / 1000;
 
                                     // Update UI with elapsed time
-                                    bp2.setText(String.format("Time: %02d:%02d:%02d",
-                                            elapsedSecond2 / 3600, (elapsedSecond2 % 3600) / 60, elapsedSecond2 % 60));
+                                    bp2.setText(String.format("Time: %02d:%02d:%02d", elapsedSecond2 / 3600, (elapsedSecond2 % 3600) / 60, elapsedSecond2 % 60));
                                 }
 
                                 @Override
@@ -238,8 +236,7 @@ public class Dashboard extends AppCompatActivity
                                     long elapsedSecond3 = elapsedTimeMilli3 / 1000;
 
                                     // Update UI with elapsed time
-                                    bp3.setText(String.format("Time: %02d:%02d:%02d",
-                                            elapsedSecond3 / 3600, (elapsedSecond3 % 3600) / 60, elapsedSecond3 % 60));
+                                    bp3.setText(String.format("Time: %02d:%02d:%02d", elapsedSecond3 / 3600, (elapsedSecond3 % 3600) / 60, elapsedSecond3 % 60));
                                 }
 
                                 @Override
@@ -295,8 +292,7 @@ public class Dashboard extends AppCompatActivity
                                     long elapsedSeconds4 = elapsedTimeMilli4 / 1000;
 
                                     // Update UI with elapsed time
-                                    bp4.setText(String.format("Time: %02d:%02d:%02d",
-                                            elapsedSeconds4 / 3600, (elapsedSeconds4 % 3600) / 60, elapsedSeconds4 % 60));
+                                    bp4.setText(String.format("Time: %02d:%02d:%02d", elapsedSeconds4 / 3600, (elapsedSeconds4 % 3600) / 60, elapsedSeconds4 % 60));
                                 }
 
                                 @Override
@@ -349,33 +345,6 @@ public class Dashboard extends AppCompatActivity
         });
     }
 
-
-    private void startTimer1()
-    {
-        timer1 = new CountDownTimer(Long.MAX_VALUE, 1000)
-        {
-            @Override
-            public void onTick(long millisUntilFinished)
-            {
-                // Calculate elapsed time
-                long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis1;
-                long elapsedSeconds = elapsedTimeMillis / 1000;
-
-                // Update UI with elapsed time
-                bp1.setText(String.format("Time: %02d:%02d:%02d",
-                        elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60));
-            }
-
-            @Override
-            public void onFinish()
-            {
-                // Timer finished, place becomes free
-                timer1 = null;
-                // Update UI to show the place is free
-            }
-        };
-        timer1.start();
-    }
 
     private boolean isUserLoggedIn()
     {
