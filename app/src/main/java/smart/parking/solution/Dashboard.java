@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +27,7 @@ public class Dashboard extends AppCompatActivity
     private ImageView[] spotImages = new ImageView[4];
     private TextView[] Texts = new TextView[4];
     private Button[] TimerBtn = new Button[4];
-    private long[] timersStartTimes = new long[4]; // Store the start times of timers
+    private long[] timersStartTimes = new long[4];
     Button btnCam, btnDisconnect;
     ImageView C1;
 
@@ -139,14 +138,20 @@ public class Dashboard extends AppCompatActivity
             {
                 startTimer(spotIndex);
             }
+
             isSpotReserved[spotIndex] = true;
-            spotImages[spotIndex].setVisibility(View.VISIBLE); // Show image
+            spotImages[spotIndex].setVisibility(View.VISIBLE);
+            TimerBtn[spotIndex].setEnabled(false);
             Texts[spotIndex].setText("Spot " + (spotIndex + 1) + ": " + status);
-        } else if (status.equals("Free")) {
+
+        }
+        else if (status.equals("Free"))
+        {
             stopTimer(spotIndex);
             isSpotReserved[spotIndex] = false;
             calculateAndDisplayAmount(spotIndex);
-            spotImages[spotIndex].setVisibility(View.INVISIBLE); // Hide image
+            TimerBtn[spotIndex].setEnabled(false);
+            spotImages[spotIndex].setVisibility(View.INVISIBLE);
             Texts[spotIndex].setText("Spot " + (spotIndex + 1) + ": " + status);
         }
     }
@@ -167,7 +172,7 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onFinish()
             {
-                // Timer finished
+                // Timer stop
             }
         }.start();
     }
@@ -175,9 +180,10 @@ public class Dashboard extends AppCompatActivity
     private void updateTimerText(int spotIndex, long millisUntilFinished)
     {
         long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) ;
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) %60;
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60;
-        TimerBtn[spotIndex].setText(hours + "h " + minutes + "m " + seconds + "s");
+        float monney = (float) (minutes*0.050) + (float) (hours*3.00);
+        TimerBtn[spotIndex].setText(hours + "h " + minutes + "m " + seconds + "s" + " / "+monney+" TND");
     }
 
     private void stopTimer(int spotIndex)
@@ -210,4 +216,5 @@ public class Dashboard extends AppCompatActivity
         editor.clear();
         editor.apply();
     }
+
 }
