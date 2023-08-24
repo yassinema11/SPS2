@@ -149,7 +149,6 @@ public class Dashboard extends AppCompatActivity
         {
             stopTimer(spotIndex);
             isSpotReserved[spotIndex] = false;
-            calculateAndDisplayAmount(spotIndex);
             TimerBtn[spotIndex].setEnabled(false);
             spotImages[spotIndex].setVisibility(View.INVISIBLE);
             Texts[spotIndex].setText("Spot " + (spotIndex + 1) + ": " + status);
@@ -193,14 +192,6 @@ public class Dashboard extends AppCompatActivity
             timers[spotIndex].cancel();
             timers[spotIndex] = null;
         }
-    }
-
-    private void calculateAndDisplayAmount(int spotIndex)
-    {
-        long elapsedTime = System.currentTimeMillis() - timersStartTimes[spotIndex];
-        double hours = TimeUnit.MILLISECONDS.toHours(elapsedTime);
-        double amount = hours * 0.50; // Billing rate
-        Texts[spotIndex].setText(""+amount);
     }
 
     private boolean isUserLoggedIn()
