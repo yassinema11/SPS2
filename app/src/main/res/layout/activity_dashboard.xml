@@ -142,6 +142,7 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
+                    android:enabled="true"
                     android:textColor="@color/black"
                     android:background="@drawable/orange_button"
                     android:text="Timer" />
@@ -153,6 +154,7 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
+                    android:enabled="true"
                     android:background="@drawable/orange_button"
                     android:text="Timer" />
             </LinearLayout>
@@ -235,8 +237,10 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img2">
+                app:layout_constraintTop_toBottomOf="@+id/img2"
+                app:layout_constraintVertical_bias="0.0">
 
                 <Button
                     android:id="@+id/btnp3"
@@ -244,38 +248,25 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:textColor="@color/black"
                     android:background="@drawable/orange_button"
-                    android:text="Timer" />
+                    android:enabled="true"
+                    android:text="Timer"
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/btnp4"
                     android:layout_width="180dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@color/black"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/orange_button"
-                    android:text="Timer" />
+                    android:enabled="true"
+                    android:text="Timer"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/camView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/buton_background"
-        android:text="Security Camera View"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.382" />
 
     <Button
         android:id="@+id/disconnect"
@@ -283,14 +274,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/buton_background"
         android:text="Disconnect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/camView"
-        app:layout_constraintVertical_bias="0.619" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

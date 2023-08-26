@@ -1,6 +1,8 @@
 package smart.parking.solution;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -53,7 +55,6 @@ public class Dashboard extends AppCompatActivity
         Texts[3] = findViewById(R.id.sp4);
 
         C1 = findViewById(R.id.cam1);
-        btnCam = findViewById(R.id.camView);
 
         btnDisconnect = findViewById(R.id.disconnect);
 
@@ -127,6 +128,24 @@ public class Dashboard extends AppCompatActivity
                     // Handle error
                 }
             });
+
+            TimerBtn[spotIndex].setTag(spotIndex);
+
+            TimerBtn[spotIndex].setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    long elapsedTime = System.currentTimeMillis() - timersStartTimes[spotIndex];
+                    long hours = TimeUnit.MILLISECONDS.toHours(elapsedTime);
+                    long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedTime) % 60;
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedTime) % 60;
+
+                    float money = (float) (minutes * 0.050) + (float) (hours * 3.00);
+
+                    showReservationDialog(spotIndex, hours, minutes, seconds, money);
+                }
+            });
         }
     }
 
@@ -143,7 +162,6 @@ public class Dashboard extends AppCompatActivity
             spotImages[spotIndex].setVisibility(View.VISIBLE);
             TimerBtn[spotIndex].setEnabled(false);
             Texts[spotIndex].setText("Spot " + (spotIndex + 1) + ": " + status);
-
         }
         else if (status.equals("Free"))
         {
@@ -154,6 +172,38 @@ public class Dashboard extends AppCompatActivity
             Texts[spotIndex].setText("Spot " + (spotIndex + 1) + ": " + status);
         }
     }
+
+    private void showReservationDialog(int spot, long ho,long min,long se, float m)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("⦿ Spot Resume ⦿");
+
+        builder.setMessage("Reserved time: " + ho + "h " + min + "m " + se + "s" + " / "+" \n Amount " + m + "TND");
+
+        builder.setPositiveButton("P sur place", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setPositiveButton("Pay par carte", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                Intent Back = new Intent(Dashboard.this ,CameraView.class);
+                startActivity(Back);
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     private void startTimer(int spotIndex)
     {
@@ -181,8 +231,11 @@ public class Dashboard extends AppCompatActivity
         long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) %60;
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60;
+
         float monney = (float) (minutes*0.050) + (float) (hours*3.00);
+
         TimerBtn[spotIndex].setText(hours + "h " + minutes + "m " + seconds + "s" + " / "+monney+" TND");
+
     }
 
     private void stopTimer(int spotIndex)
@@ -197,15 +250,17 @@ public class Dashboard extends AppCompatActivity
     private boolean isUserLoggedIn()
     {
         SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
-        return sharedPreferences.contains("email") && sharedPreferences.contains("password");
+        return sharedPreferences.getBoolean("isLoggedIn", true);
     }
+
 
     private void clearUserSession()
     {
         SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        editor.remove("isLoggedIn");
         editor.apply();
     }
+
 
 }

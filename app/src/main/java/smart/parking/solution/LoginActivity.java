@@ -18,7 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,7 +34,6 @@ public class LoginActivity extends AppCompatActivity
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebasedatabase;
     FirebaseFirestore db;
-
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -59,7 +57,6 @@ public class LoginActivity extends AppCompatActivity
         firebasedatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
 
 
         LoginUser.setOnClickListener(new View.OnClickListener()
@@ -108,10 +105,11 @@ public class LoginActivity extends AppCompatActivity
                                     if(a.equals(a1) && b.equals(b1))
                                     {
                                         Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
-                                        saveUserSession(a1, b1);
                                         Intent home = new Intent(LoginActivity.this, Dashboard.class);
                                         startActivity(home);
                                         finish();
+                                        saveUserSession(a1, b1);
+
                                     }
                                     else
                                     {
@@ -183,20 +181,6 @@ public class LoginActivity extends AppCompatActivity
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("email", email);
         editor.putString("password", password);
-        editor.apply();
-    }
-
-    private boolean isUserLoggedIn()
-    {
-        SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
-        return sharedPreferences.contains("email") && sharedPreferences.contains("password");
-    }
-
-    private void clearUserSession()
-    {
-        SharedPreferences sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
         editor.apply();
     }
 
