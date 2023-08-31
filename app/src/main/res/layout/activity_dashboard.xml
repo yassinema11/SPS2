@@ -43,6 +43,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/cctv_left" />
 
+            <ImageView
+                android:id="@+id/helpdesk"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/help_desk" />
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
@@ -55,6 +65,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/available_spots_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available Spots: 4"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_blue"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/textView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -142,7 +167,6 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:enabled="true"
                     android:textColor="@color/black"
                     android:background="@drawable/orange_button"
                     android:text="Timer" />
@@ -154,7 +178,6 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
-                    android:enabled="true"
                     android:background="@drawable/orange_button"
                     android:text="Timer" />
             </LinearLayout>
@@ -237,10 +260,8 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img2"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintTop_toBottomOf="@+id/img2">
 
                 <Button
                     android:id="@+id/btnp3"
@@ -248,25 +269,37 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
+                    android:textColor="@color/black"
                     android:background="@drawable/orange_button"
-                    android:enabled="true"
-                    android:text="Timer"
-                    android:textColor="@color/black" />
+                    android:text="Timer" />
 
                 <Button
                     android:id="@+id/btnp4"
                     android:layout_width="180dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/orange_button"
-                    android:enabled="true"
-                    android:text="Timer"
-                    android:textColor="@color/black" />
+                    android:text="Timer" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/camView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/buton_background"
+        android:text="Security Camera View"
+        app:layout_constraintBottom_toTopOf="@+id/disconnect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <Button
         android:id="@+id/disconnect"
@@ -274,12 +307,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/buton_background"
         android:text="Disconnect"
+        app:layout_constraintTop_toBottomOf="@+id/camView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
